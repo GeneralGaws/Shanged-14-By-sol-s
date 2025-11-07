@@ -1,20 +1,135 @@
-using Content.Server.Administration.Logs;
-using Content.Server.Administration.Managers;
-using Content.Shared._White.Bark;
-using Content.Shared._White.CustomGhostSystem;
-using Content.Shared.Administration.Logs;
-using Content.Shared.Clothing.Loadouts.Systems;
-using Content.Shared.Database;
-using Content.Shared.Humanoid;
-using Content.Shared.Humanoid.Markings;
-using Content.Shared.Preferences;
-using Content.Shared.Roles;
-using Content.Shared.Traits;
-using Microsoft.EntityFrameworkCore;
-using Robust.Shared.Enums;
-using Robust.Shared.Network;
-using Robust.Shared.Prototypes;
-using Robust.Shared.Utility;
+// SPDX-FileCopyrightText: 2020 20kdc <asdd2808@gmail.com>
+// SPDX-FileCopyrightText: 2021 Leo <lzimann@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2021 Metal Gear Sloth <metalgearsloth@gmail.com>
+// SPDX-FileCopyrightText: 2021 Remie Richards <remierichards@gmail.com>
+// SPDX-FileCopyrightText: 2021 Swept <sweptwastaken@protonmail.com>
+// SPDX-FileCopyrightText: 2022 Flipp Syder <76629141+vulppine@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2022 Javier Guardia Fernández <DrSmugleaf@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2022 Julian Giebel <j.giebel@netrocks.info>
+// SPDX-FileCopyrightText: 2022 Moony <moonheart08@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2022 Vera Aguilera Puerto <6766154+Zumorica@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2022 Veritius <veritiusgaming@gmail.com>
+// SPDX-FileCopyrightText: 2022 Visne <39844191+Visne@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2022 mirrorcult <lunarautomaton6@gmail.com>
+// SPDX-FileCopyrightText: 2022 wrexbe <81056464+wrexbe@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2023 Riggle <27156122+RigglePrime@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2023 Sailor <109166122+Equivocateur@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 12rabbits <53499656+12rabbits@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 AJCM <AJCM@tutanota.com>
+// SPDX-FileCopyrightText: 2024 AJCM-git <60196617+AJCM-git@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Alex Evgrashin <aevgrashin@yandex.ru>
+// SPDX-FileCopyrightText: 2024 Alex Pavlenko <diraven@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Alice "Arimah" Heurlin <30327355+arimah@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Alzore <140123969+Blackern5000@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 ArkiveDev <95712736+ArkiveDev@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 ArtisticRoomba <145879011+ArtisticRoomba@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Boaz1111 <149967078+Boaz1111@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Brandon Hu <103440971+Brandon-Huu@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Chief-Engineer <119664036+Chief-Engineer@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Dimastra <65184747+Dimastra@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Dimastra <dimastra@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Doomsdrayk <robotdoughnut@comcast.net>
+// SPDX-FileCopyrightText: 2024 DrSmugleaf <DrSmugleaf@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Ed <96445749+TheShuEd@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Emisse <99158783+Emisse@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Eoin Mcloughlin <helloworld@eoinrul.es>
+// SPDX-FileCopyrightText: 2024 Errant <35878406+Errant-4@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Firewatch <54725557+musicmanvr@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Flareguy <78941145+Flareguy@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Ghagliiarghii <68826635+Ghagliiarghii@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 HS <81934438+HolySSSS@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 IProduceWidgets <107586145+IProduceWidgets@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 JIPDawg <51352440+JIPDawg@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 JIPDawg <JIPDawg93@gmail.com>
+// SPDX-FileCopyrightText: 2024 Julian Giebel <juliangiebel@live.de>
+// SPDX-FileCopyrightText: 2024 JustCone <141039037+JustCone14@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Ko4ergaPunk <62609550+Ko4ergaPunk@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Krunklehorn <42424291+Krunklehorn@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Leon Friedrich <60421075+ElectroJr@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 MendaxxDev <153332064+MendaxxDev@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Mervill <mervills.email@gmail.com>
+// SPDX-FileCopyrightText: 2024 MilenVolf <63782763+MilenVolf@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Moomoobeef <62638182+Moomoobeef@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Mr. 27 <45323883+Dutch-VanDerLinde@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Mr. 27 <koolthunder019@gmail.com>
+// SPDX-FileCopyrightText: 2024 Nemanja <98561806+EmoGarbage404@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 PJBot <pieterjan.briers+bot@gmail.com>
+// SPDX-FileCopyrightText: 2024 Partmedia <kevinz5000@gmail.com>
+// SPDX-FileCopyrightText: 2024 Plykiya <58439124+Plykiya@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 PoTeletubby <151896601+PoTeletubby@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 PopGamer46 <yt1popgamer@gmail.com>
+// SPDX-FileCopyrightText: 2024 PursuitInAshes <pursuitinashes@gmail.com>
+// SPDX-FileCopyrightText: 2024 QueerNB <176353696+QueerNB@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Redfire1331 <125223432+Redfire1331@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Repo <47093363+Titian3@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Rouge2t7 <81053047+Sarahon@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Saphire Lattice <lattice@saphi.re>
+// SPDX-FileCopyrightText: 2024 ShadowCommander <10494922+ShadowCommander@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Simon <63975668+Simyon264@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Spessmann <156740760+Spessmann@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Tayrtahn <tayrtahn@gmail.com>
+// SPDX-FileCopyrightText: 2024 Thomas <87614336+Aeshus@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Truoizys <153248924+Truoizys@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 TsjipTsjip <19798667+TsjipTsjip@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Ubaser <134914314+UbaserB@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Vasilis <vasilis@pikachu.systems>
+// SPDX-FileCopyrightText: 2024 Winkarst <74284083+Winkarst-cpu@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 coolboy911 <85909253+coolboy911@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 eoineoineoin <github@eoinrul.es>
+// SPDX-FileCopyrightText: 2024 lunarcomets <140772713+lunarcomets@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 lzk <124214523+lzk228@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 metalgearsloth <comedian_vs_clown@hotmail.com>
+// SPDX-FileCopyrightText: 2024 neutrino <67447925+neutrino-laser@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 nikthechampiongr <32041239+nikthechampiongr@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 osjarw <62134478+osjarw@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 plykiya <plykiya@protonmail.com>
+// SPDX-FileCopyrightText: 2024 redfire1331 <Redfire1331@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 saintmuntzer <47153094+saintmuntzer@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 slarticodefast <161409025+slarticodefast@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 stellar-novas <stellar_novas@riseup.net>
+// SPDX-FileCopyrightText: 2024 themias <89101928+themias@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2024 Арт <123451459+JustArt1m@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Aiden <aiden@djkraz.com>
+// SPDX-FileCopyrightText: 2025 Aviu00 <93730715+Aviu00@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 DrSmugleaf <10968691+DrSmugleaf@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 DrSmugleaf <drsmugleaf@gmail.com>
+// SPDX-FileCopyrightText: 2025 GoobBot <uristmchands@proton.me>
+// SPDX-FileCopyrightText: 2025 Ichaie <167008606+Ichaie@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Ilya246 <57039557+Ilya246@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Ilya246 <ilyukarno@gmail.com>
+// SPDX-FileCopyrightText: 2025 JORJ949 <159719201+JORJ949@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Kutosss <162154227+Kutosss@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 MarkerWicker <markerWicker@proton.me>
+// SPDX-FileCopyrightText: 2025 MortalBaguette <169563638+MortalBaguette@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Myra <vasilis@pikachu.systems>
+// SPDX-FileCopyrightText: 2025 PJB3005 <pieterjan.briers+git@gmail.com>
+// SPDX-FileCopyrightText: 2025 Panela <107573283+AgentePanela@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Pieter-Jan Briers <pieterjan.briers+git@gmail.com>
+// SPDX-FileCopyrightText: 2025 Pieter-Jan Briers <pieterjan.briers@gmail.com>
+// SPDX-FileCopyrightText: 2025 Piras314 <p1r4s@proton.me>
+// SPDX-FileCopyrightText: 2025 Poips <Hanakohashbrown@gmail.com>
+// SPDX-FileCopyrightText: 2025 PuroSlavKing <103608145+PuroSlavKing@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 ReserveBot <211949879+ReserveBot@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 SX-7 <92227810+SX-7@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Solstice <solsticeofthewinter@gmail.com>
+// SPDX-FileCopyrightText: 2025 Svarshik <96281939+lexaSvarshik@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Whisper <121047731+QuietlyWhisper@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 beck-thompson <107373427+beck-thompson@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 blobadoodle <me@bloba.dev>
+// SPDX-FileCopyrightText: 2025 coderabbitai[bot] <136622811+coderabbitai[bot]@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 deltanedas <39013340+deltanedas@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 deltanedas <@deltanedas:kde.org>
+// SPDX-FileCopyrightText: 2025 github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 gluesniffler <159397573+gluesniffler@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 kamkoi <poiiiple1@gmail.com>
+// SPDX-FileCopyrightText: 2025 metalgearsloth <31366439+metalgearsloth@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 nazrin <tikufaev@outlook.com>
+// SPDX-FileCopyrightText: 2025 shibe <95730644+shibechef@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 tetra <169831122+Foralemes@users.noreply.github.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -23,6 +138,24 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Content.Server.Administration.Logs;
+using Content.Server.Administration.Managers;
+using Content.Shared._RMC14.LinkAccount;
+using Content.Shared._White.CustomGhostSystem;
+using Content.Shared.Administration.Logs;
+using Content.Shared.Construction.Prototypes;
+using Content.Shared.Database;
+using Content.Shared.Humanoid;
+using Content.Shared.Humanoid.Markings;
+using Content.Shared.Preferences;
+using Content.Shared.Preferences.Loadouts;
+using Content.Shared.Roles;
+using Content.Shared.Traits;
+using Microsoft.EntityFrameworkCore;
+using Robust.Shared.Enums;
+using Robust.Shared.Network;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Database
 {
@@ -50,8 +183,11 @@ namespace Content.Server.Database
                 .Include(p => p.Profiles).ThenInclude(h => h.Jobs)
                 .Include(p => p.Profiles).ThenInclude(h => h.Antags)
                 .Include(p => p.Profiles).ThenInclude(h => h.Traits)
-                .Include(p => p.Profiles).ThenInclude(h => h.Loadouts)
-                .AsSingleQuery()
+                .Include(p => p.Profiles)
+                    .ThenInclude(h => h.Loadouts)
+                    .ThenInclude(l => l.Groups)
+                    .ThenInclude(group => group.Loadouts)
+                .AsSplitQuery()
                 .SingleOrDefaultAsync(p => p.UserId == userId.UserId, cancel);
 
             if (prefs is null)
@@ -64,7 +200,13 @@ namespace Content.Server.Database
                 profiles[profile.Slot] = ConvertProfiles(profile);
             }
 
-            return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), prefs.GhostId); // WWDP EDIT
+            var constructionFavorites = new List<ProtoId<ConstructionPrototype>>(prefs.ConstructionFavorites.Count);
+            foreach (var favorite in prefs.ConstructionFavorites)
+                constructionFavorites.Add(new ProtoId<ConstructionPrototype>(favorite));
+
+            var ghostProto = new ProtoId<CustomGhostPrototype>(prefs.GhostId ?? "");
+
+            return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), ghostProto, constructionFavorites);
         }
 
         public async Task SaveSelectedCharacterIndexAsync(NetUserId userId, int index)
@@ -100,6 +242,8 @@ namespace Content.Server.Database
                 .Include(p => p.Antags)
                 .Include(p => p.Traits)
                 .Include(p => p.Loadouts)
+                    .ThenInclude(l => l.Groups)
+                    .ThenInclude(group => group.Loadouts)
                 .AsSplitQuery()
                 .SingleOrDefault(h => h.Slot == slot);
 
@@ -141,7 +285,7 @@ namespace Content.Server.Database
                 UserId = userId.UserId,
                 SelectedCharacterSlot = 0,
                 AdminOOCColor = Color.Red.ToHex(),
-                GhostId = "default" // WWDP EDIT
+                ConstructionFavorites = [],
             };
 
             prefs.Profiles.Add(profile);
@@ -150,7 +294,7 @@ namespace Content.Server.Database
 
             await db.DbContext.SaveChangesAsync();
 
-            return new PlayerPreferences(new[] { new KeyValuePair<int, ICharacterProfile>(0, defaultProfile) }, 0, Color.FromHex(prefs.AdminOOCColor), "default");
+            return new PlayerPreferences(new[] { new KeyValuePair<int, ICharacterProfile>(0, defaultProfile) }, 0, Color.FromHex(prefs.AdminOOCColor), new ProtoId<CustomGhostPrototype>(""), []);
         }
 
         public async Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot)
@@ -190,6 +334,19 @@ namespace Content.Server.Database
         }
         // WWDP EDIT END
 
+        public async Task SaveConstructionFavoritesAsync(NetUserId userId, List<ProtoId<ConstructionPrototype>> constructionFavorites)
+        {
+            await using var db = await GetDb();
+            var prefs = await db.DbContext.Preference.SingleAsync(p => p.UserId == userId.UserId);
+
+            var favorites = new List<string>(constructionFavorites.Count);
+            foreach (var favorite in constructionFavorites)
+                favorites.Add(favorite.Id);
+            prefs.ConstructionFavorites = favorites;
+
+            await db.DbContext.SaveChangesAsync();
+        }
+
         private static async Task SetSelectedCharacterSlotAsync(NetUserId userId, int newSlot, ServerDbContext db)
         {
             var prefs = await db.Preference.SingleAsync(p => p.UserId == userId.UserId);
@@ -201,7 +358,6 @@ namespace Content.Server.Database
             var jobs = profile.Jobs.ToDictionary(j => new ProtoId<JobPrototype>(j.JobName), j => (JobPriority) j.Priority);
             var antags = profile.Antags.Select(a => new ProtoId<AntagPrototype>(a.AntagName));
             var traits = profile.Traits.Select(t => new ProtoId<TraitPrototype>(t.TraitName));
-            var loadouts = profile.Loadouts.Select(Shared.Clothing.Loadouts.Systems.Loadout (l) => l);
 
             var sex = Sex.Male;
             if (Enum.TryParse<Sex>(profile.Sex, true, out var sexVal))
@@ -212,16 +368,6 @@ namespace Content.Server.Database
             var gender = sex == Sex.Male ? Gender.Male : Gender.Female;
             if (Enum.TryParse<Gender>(profile.Gender, true, out var genderVal))
                 gender = genderVal;
-
-            // WD EDIT START
-            var voice = profile.Voice;
-            if (voice == string.Empty)
-                voice = SharedHumanoidAppearanceSystem.DefaultSexVoice[sex];
-
-            var bodyType = profile.BodyType;
-            if (bodyType == string.Empty)
-                bodyType = profile.Species + "Normal";
-            // WD EDIT END
 
             // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
             var markingsRaw = profile.Markings?.Deserialize<List<string>>();
@@ -239,37 +385,41 @@ namespace Content.Server.Database
                 }
             }
 
+            var loadouts = new Dictionary<string, RoleLoadout>();
+
+            foreach (var role in profile.Loadouts)
+            {
+                var loadout = new RoleLoadout(role.RoleName)
+                {
+                    EntityName = role.EntityName,
+                };
+
+                foreach (var group in role.Groups)
+                {
+                    var groupLoadouts = loadout.SelectedLoadouts.GetOrNew(group.GroupName);
+                    foreach (var profLoadout in group.Loadouts)
+                    {
+                        groupLoadouts.Add(new Loadout()
+                        {
+                            Prototype = profLoadout.LoadoutName,
+                        });
+                    }
+                }
+
+                loadouts[role.RoleName] = loadout;
+            }
+
             return new HumanoidCharacterProfile(
                 profile.CharacterName,
                 profile.FlavorText,
                 profile.Species,
-                profile.CustomSpecieName,
-                profile.Nationality,
-                profile.Employer,
-                profile.Lifepath,
-                profile.Height,
-                profile.Width,
+                profile.Height, // Goobstation: port EE height/width sliders
+                profile.Width, // Goobstation: port EE height/width sliders
                 profile.Age,
                 sex,
-                voice, // WD EDIT
-                profile.BarkVoice, // WD EDIT
-                                   // WD EDIT START
-                new BarkPercentageApplyData()
-                {
-                    Pause = profile.BarkPause,
-                    Pitch = profile.BarkPitch,
-                    PitchVariance = profile.BarkPitchVariance,
-                    Volume = profile.BarkVolume,
-                },
-                // WD EDIT END
-                bodyType, // WD EDIT
                 gender,
-                profile.DisplayPronouns,
-                profile.StationAiName,
-                profile.CyborgName,
-                profile.ClownName, // WD EDIT
-                profile.MimeName, // WD EDIT
-                new HumanoidCharacterAppearance(
+                new HumanoidCharacterAppearance
+                (
                     profile.HairName,
                     Color.FromHex(profile.HairColor),
                     profile.FacialHairName,
@@ -279,19 +429,12 @@ namespace Content.Server.Database
                     markings
                 ),
                 spawnPriority,
+                (UplinkPreference) profile.Uplink,
                 jobs,
                 (PreferenceUnavailableMode) profile.PreferenceUnavailable,
                 antags.ToHashSet(),
                 traits.ToHashSet(),
-                loadouts.Select(l => new LoadoutPreference(l.LoadoutName)
-                {
-                    CustomName = l.CustomName,
-                    CustomDescription = l.CustomDescription,
-                    CustomContent = l.CustomContent, // WD EDIT
-                    CustomColorTint = l.CustomColorTint,
-                    CustomHeirloom = l.CustomHeirloom,
-                    Selected = true,
-                }).ToHashSet()
+                loadouts
             );
         }
 
@@ -309,29 +452,18 @@ namespace Content.Server.Database
             profile.CharacterName = humanoid.Name;
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
-            profile.CustomSpecieName = humanoid.Customspeciename;
-            profile.Nationality = humanoid.Nationality;
-            profile.Employer = humanoid.Employer;
-            profile.Lifepath = humanoid.Lifepath;
+            profile.Height = humanoid.Height; // Goobstation: port EE height/width sliders
+            profile.Width = humanoid.Width; // Goobstation: port EE height/width sliders
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
-            profile.Voice = humanoid.Voice; // WD EDIT
-            profile.BarkVoice = humanoid.BarkVoice; // WD EDIT
-            profile.BodyType = humanoid.BodyType; // WD EDIT
             profile.Gender = humanoid.Gender.ToString();
-            profile.DisplayPronouns = humanoid.DisplayPronouns;
-            profile.StationAiName = humanoid.StationAiName;
-            profile.CyborgName = humanoid.CyborgName;
-            profile.ClownName = humanoid.ClownName; // WD EDIT
-            profile.MimeName = humanoid.MimeName; // WD EDIT
-            profile.Height = humanoid.Height;
-            profile.Width = humanoid.Width;
             profile.HairName = appearance.HairStyleId;
             profile.HairColor = appearance.HairColor.ToHex();
             profile.FacialHairName = appearance.FacialHairStyleId;
             profile.FacialHairColor = appearance.FacialHairColor.ToHex();
             profile.EyeColor = appearance.EyeColor.ToHex();
             profile.SkinColor = appearance.SkinColor.ToHex();
+            profile.Uplink = (int) humanoid.UplinkPreference;
             profile.SpawnPriority = (int) humanoid.SpawnPriority;
             profile.Markings = markings;
             profile.Slot = slot;
@@ -353,19 +485,39 @@ namespace Content.Server.Database
             profile.Traits.Clear();
             profile.Traits.AddRange(
                 humanoid.TraitPreferences
-                    .Select(t => new Trait { TraitName = t })
+                        .Select(t => new Trait { TraitName = t })
             );
 
             profile.Loadouts.Clear();
-            profile.Loadouts.AddRange(humanoid.LoadoutPreferences
-                .Select(l => new Loadout(l.LoadoutName, l.CustomName, l.CustomDescription, l.CustomContent, l.CustomColorTint, l.CustomHeirloom))); // WD EDIT
 
-            // WWDP EDIT START
-            profile.BarkPause = humanoid.BarkSettings.Pause;
-            profile.BarkPitch = humanoid.BarkSettings.Pitch;
-            profile.BarkPitchVariance = humanoid.BarkSettings.PitchVariance;
-            profile.BarkVolume = humanoid.BarkSettings.Volume;
-            // WWDP EDIT END
+            foreach (var (role, loadouts) in humanoid.Loadouts)
+            {
+                var dz = new ProfileRoleLoadout()
+                {
+                    RoleName = role,
+                    EntityName = loadouts.EntityName ?? string.Empty,
+                };
+
+                foreach (var (group, groupLoadouts) in loadouts.SelectedLoadouts)
+                {
+                    var profileGroup = new ProfileLoadoutGroup()
+                    {
+                        GroupName = group,
+                    };
+
+                    foreach (var loadout in groupLoadouts)
+                    {
+                        profileGroup.Loadouts.Add(new ProfileLoadout()
+                        {
+                            LoadoutName = loadout.Prototype,
+                        });
+                    }
+
+                    dz.Groups.Add(profileGroup);
+                }
+
+                profile.Loadouts.Add(dz);
+            }
 
             return profile;
         }
@@ -440,6 +592,7 @@ namespace Content.Server.Database
             ImmutableArray<ImmutableArray<byte>>? modernHWIds,
             bool includeUnbanned);
 
+        public abstract Task<ServerBanDef?> GetLastServerBanAsync(); //ADT-Tweak: Логи банов для диса
         public abstract Task AddServerBanAsync(ServerBanDef serverBan);
         public abstract Task AddServerUnbanAsync(ServerUnbanDef serverUnban);
 
@@ -537,6 +690,7 @@ namespace Content.Server.Database
             ImmutableArray<ImmutableArray<byte>>? modernHWIds,
             bool includeUnbanned);
 
+        public abstract Task<ServerRoleBanDef?> GetLastServerRoleBanAsync(); //ADT-Tweak: Логи банов для диса
         public abstract Task<ServerRoleBanDef> AddServerRoleBanAsync(ServerRoleBanDef serverRoleBan);
         public abstract Task AddServerRoleUnbanAsync(ServerRoleUnbanDef serverRoleUnban);
 
@@ -556,7 +710,7 @@ namespace Content.Server.Database
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(b => b.Severity, severity)
                     .SetProperty(b => b.Reason, reason)
-                    .SetProperty(b => b.ExpirationTime, expiration.HasValue ? expiration.Value.UtcDateTime : (DateTime?) null)
+                    .SetProperty(b => b.ExpirationTime, expiration.HasValue ? expiration.Value.UtcDateTime : (DateTime?)null)
                     .SetProperty(b => b.LastEditedById, editedBy)
                     .SetProperty(b => b.LastEditedAt, editedAt.UtcDateTime)
                 );
@@ -688,6 +842,66 @@ namespace Content.Server.Database
                 new DateTimeOffset(NormalizeDatabaseTime(player.LastSeenTime)),
                 player.LastSeenAddress,
                 player.LastSeenHWId);
+        }
+
+        public async Task<int> GetServerCurrency(NetUserId userId) // Goobstation
+        {
+            await using var db = await GetDb();
+
+            return await db.DbContext.Player
+                .Where(dbPlayer => dbPlayer.UserId == userId)
+                .Select(dbPlayer => dbPlayer.ServerCurrency)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task SetServerCurrency(NetUserId userId, int currency) // Goobstation
+        {
+            await using var db = await GetDb();
+
+            var dbPlayer = await db.DbContext.Player.Where(dbPlayer => dbPlayer.UserId == userId).SingleOrDefaultAsync();
+            if (dbPlayer == null)
+                return;
+
+            dbPlayer.ServerCurrency = currency;
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> ModifyServerCurrency(NetUserId userId, int currencyDelta) // Goobstation
+        {
+            await using var db = await GetDb();
+
+            var dbPlayer = await db.DbContext.Player.Where(dbPlayer => dbPlayer.UserId == userId).SingleOrDefaultAsync();
+            if (dbPlayer == null)
+                return currencyDelta;
+
+            dbPlayer.ServerCurrency += currencyDelta;
+            await db.DbContext.SaveChangesAsync();
+            return dbPlayer.ServerCurrency;
+        }
+
+        public async Task<TimeSpan> GetLastRolledAntag(NetUserId userId) // Goobstation
+        {
+            await using var db = await GetDb();
+            TimeSpan? lastRolled = await db.DbContext.Player
+                .Where(dbPlayer => dbPlayer.UserId == userId)
+                .Select(dbPlayer => dbPlayer.LastRolledAntag)
+                .SingleOrDefaultAsync();
+
+            return lastRolled ?? TimeSpan.Zero;
+        }
+
+        public async Task<bool> SetLastRolledAntag(NetUserId userId, TimeSpan to) // Goobstation
+        {
+            await using var db = await GetDb();
+            var dbPlayer = await db.DbContext.Player.Where(dbPlayer => dbPlayer.UserId == userId).SingleOrDefaultAsync();
+
+            // Check if we didn't get user from DB
+            if (dbPlayer == null || dbPlayer.UserId != userId)
+                return false;
+
+            dbPlayer.LastRolledAntag = to;
+            await db.DbContext.SaveChangesAsync();
+            return true;
         }
 
         #endregion
@@ -927,10 +1141,41 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         public async Task AddAdminLogs(List<AdminLog> logs)
         {
+            const int maxRetryAttempts = 5;
+            var initialRetryDelay = TimeSpan.FromSeconds(5);
+
             DebugTools.Assert(logs.All(x => x.RoundId > 0), "Adding logs with invalid round ids.");
-            await using var db = await GetDb();
-            db.DbContext.AdminLog.AddRange(logs);
-            await db.DbContext.SaveChangesAsync();
+
+            var attempt = 0;
+            var retryDelay = initialRetryDelay;
+
+            while (attempt < maxRetryAttempts)
+            {
+                try
+                {
+                    await using var db = await GetDb();
+                    db.DbContext.AdminLog.AddRange(logs);
+                    await db.DbContext.SaveChangesAsync();
+                    _opsLog.Debug($"Successfully saved {logs.Count} admin logs.");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    attempt += 1;
+                    _opsLog.Error($"Attempt {attempt} failed to save logs: {ex}");
+
+                    if (attempt >= maxRetryAttempts)
+                    {
+                        _opsLog.Error($"Max retry attempts reached. Failed to save {logs.Count} admin logs.");
+                        return;
+                    }
+
+                    _opsLog.Warning($"Retrying in {retryDelay.TotalSeconds} seconds...");
+                    await Task.Delay(retryDelay);
+
+                    retryDelay *= 2;
+                }
+            }
         }
 
         protected abstract IQueryable<AdminLog> StartAdminLogsQuery(ServerDbContext db, LogFilter? filter = null);
@@ -1106,7 +1351,7 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                 .SingleOrDefaultAsync());
         }
 
-        public async Task SetLastReadRules(NetUserId player, DateTimeOffset date)
+        public async Task SetLastReadRules(NetUserId player, DateTimeOffset? date)
         {
             await using var db = await GetDb();
 
@@ -1116,7 +1361,7 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                 return;
             }
 
-            dbPlayer.LastReadRules = date.UtcDateTime;
+            dbPlayer.LastReadRules = date?.UtcDateTime;
             await db.DbContext.SaveChangesAsync();
         }
 
@@ -1632,9 +1877,9 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
             // Client side query, as EF can't do groups yet
             var bansEnumerable = bansQuery
-                .GroupBy(ban => new { ban.BanTime, CreatedBy = (Player?) ban.CreatedBy, ban.Reason, Unbanned = ban.Unban == null })
-                .Select(banGroup => banGroup)
-                .ToArray();
+                    .GroupBy(ban => new { ban.BanTime, CreatedBy = (Player?) ban.CreatedBy, ban.Reason, Unbanned = ban.Unban == null })
+                    .Select(banGroup => banGroup)
+                    .ToArray();
 
             List<ServerRoleBanNoteRecord> bans = new();
             var player = await db.DbContext.Player.SingleOrDefaultAsync(p => p.UserId == user);
@@ -1728,6 +1973,134 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         #endregion
 
+        #region RMC14
+
+        public async Task<Guid?> GetLinkingCode(Guid player)
+        {
+            await using var db = await GetDb();
+            var linking = await db.DbContext.RMCLinkingCodes.FirstOrDefaultAsync(l => l.PlayerId == player);
+            return linking?.Code;
+        }
+
+        public async Task SetLinkingCode(Guid player, Guid code)
+        {
+            await using var db = await GetDb();
+            var linking = await db.DbContext.RMCLinkingCodes.FirstOrDefaultAsync(l => l.PlayerId == player);
+            if (linking == null)
+            {
+                linking = new RMCLinkingCodes { PlayerId = player };
+                db.DbContext.RMCLinkingCodes.Add(linking);
+            }
+
+            linking.Code = code;
+            linking.CreationTime = DateTime.UtcNow;
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasLinkedAccount(Guid player, CancellationToken cancel)
+        {
+            await using var db = await GetDb(cancel);
+            return await db.DbContext.RMCLinkedAccounts.AnyAsync(l => l.PlayerId == player, cancel);
+
+        }
+
+        public async Task<RMCPatron?> GetPatron(Guid player, CancellationToken cancel)
+        {
+            await using var db = await GetDb(cancel);
+            var patron = await db.DbContext.RMCPatrons
+                .Include(p => p.Tier)
+                .Include(p => p.LobbyMessage)
+                .Include(p => p.RoundEndNTShoutout)
+                .FirstOrDefaultAsync(p => p.PlayerId == player, cancellationToken: cancel);
+            return patron;
+        }
+
+        public async Task<List<RMCPatron>> GetAllPatrons()
+        {
+            await using var db = await GetDb();
+            return await db.DbContext.RMCPatrons
+                .Include(p => p.Player)
+                .Include(p => p.Tier)
+                .ToListAsync();
+        }
+
+        public async Task SetGhostColor(Guid player, System.Drawing.Color? color)
+        {
+            await using var db = await GetDb();
+            var patron = await db.DbContext.RMCPatrons.FirstOrDefaultAsync(p => p.PlayerId == player);
+            if (patron == null)
+                return;
+
+            patron.GhostColor = color?.ToArgb();
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task SetLobbyMessage(Guid player, string message)
+        {
+            await using var db = await GetDb();
+            var msg = await db.DbContext.RMCPatronLobbyMessages
+                .Include(l => l.Patron)
+                .FirstOrDefaultAsync(p => p.PatronId == player);
+            msg ??= db.DbContext.RMCPatronLobbyMessages
+                .Add(new RMCPatronLobbyMessage
+                {
+                    PatronId = player,
+                    Message = message,
+                })
+                .Entity;
+            msg.Message = message;
+
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task SetNTShoutout(Guid player, string name)
+        {
+            await using var db = await GetDb();
+            var msg = await db.DbContext.RMCPatronRoundEndNTShoutouts
+                .Include(s => s.Patron)
+                .FirstOrDefaultAsync(p => p.PatronId == player);
+            msg ??= db.DbContext.RMCPatronRoundEndNTShoutouts
+                .Add(new RMCPatronRoundEndNTShoutout()
+                {
+                    PatronId = player,
+                    Name = name,
+                })
+                .Entity;
+            msg.Name = name;
+
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<(string Message, string User)>> GetLobbyMessages()
+        {
+            await using var db = await GetDb();
+            var messages = await db.DbContext.RMCPatronLobbyMessages
+                .Include(p => p.Patron)
+                .ThenInclude(p => p.Player)
+                .Where(p => p.Patron.Tier.LobbyMessage)
+                .Where(p => !string.IsNullOrWhiteSpace(p.Message))
+                .Select(p => new { p.Message, p.Patron.Player.LastSeenUserName })
+                .Select(p => new ValueTuple<string, string>(p.Message, p.LastSeenUserName))
+                .ToListAsync();
+
+            return messages;
+        }
+
+        public async Task<List<string>> GetShoutouts()
+        {
+            await using var db = await GetDb();
+            var ntNames = await db.DbContext.RMCPatronRoundEndNTShoutouts
+                .Include(p => p.Patron)
+                .Where(p => p.Patron.Tier.RoundEndShoutout)
+                .Where(p => !string.IsNullOrWhiteSpace(p.Name))
+                .Select(p => p.Name)
+                .ToListAsync();
+
+            return ntNames;
+        }
+
+        #endregion
+
         # region IPIntel
 
         public async Task<bool> UpsertIPIntelCache(DateTime time, IPAddress ip, float score)
@@ -1794,6 +2167,8 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
         }
 
         #endregion
+
+        public abstract Task SendNotification(DatabaseNotification notification);
 
         // SQLite returns DateTime as Kind=Unspecified, Npgsql actually knows for sure it's Kind=Utc.
         // Normalize DateTimes here so they're always Utc. Thanks.

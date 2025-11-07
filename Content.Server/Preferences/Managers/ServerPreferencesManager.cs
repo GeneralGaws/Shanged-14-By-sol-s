@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Content.Server.Database;
 using Content.Shared._White.CustomGhostSystem;
 using Content.Shared.CCVar;
+using Content.Shared.Construction.Prototypes;
 using Content.Shared.Preferences;
 using Robust.Server.Player;
 using Robust.Shared.Configuration;
@@ -183,7 +184,7 @@ namespace Content.Server.Preferences.Managers
                     PrefsLoaded = true,
                     Prefs = new PlayerPreferences(
                         new[] { new KeyValuePair<int, ICharacterProfile>(0, HumanoidCharacterProfile.Random()) },
-                        0, Color.Transparent, "default") // WWDP EDIT
+                        0, Color.Transparent, new ProtoId<CustomGhostPrototype>("default"), []) // WWDP EDIT
                 };
 
                 _cachedPlayerPrefs[session.UserId] = prefsData;
@@ -312,7 +313,8 @@ namespace Content.Server.Preferences.Managers
             // WWDP EDIT START
             return new PlayerPreferences(prefs.Characters.Select(p => new KeyValuePair<int, ICharacterProfile>(p.Key,
                     p.Value.Validated(session, collection))), prefs.SelectedCharacterIndex, prefs.AdminOOCColor,
-                    _protos.TryIndex<CustomGhostPrototype>(prefs.CustomGhost, out var ghostProto) && ghostProto.CanUse(session) ? prefs.CustomGhost : "default");
+                    _protos.TryIndex<CustomGhostPrototype>(prefs.CustomGhost, out var ghostProto) && ghostProto.CanUse(session) ? prefs.CustomGhost : new ProtoId<CustomGhostPrototype>("default"),
+                    prefs.ConstructionFavorites);
             // WWDP EDIT END
         }
 
@@ -341,6 +343,12 @@ namespace Content.Server.Preferences.Managers
             _userDb.AddOnLoadPlayer(LoadData);
             _userDb.AddOnFinishLoad(FinishLoad);
             _userDb.AddOnPlayerDisconnect(OnClientDisconnected);
+        }
+
+        public Task SetConstructionFavorites(NetUserId userId, List<ProtoId<ConstructionPrototype>> favorites)
+        {
+            // Not implemented for this server
+            return Task.CompletedTask;
         }
     }
 }

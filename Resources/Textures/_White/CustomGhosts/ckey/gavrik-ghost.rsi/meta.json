@@ -8,11 +8,10 @@
   },
   "states": [
     {
-      "name": "icon"
+      "name": "animated"
     },
     {
-      "name": "equipped-BELT",
-      "directions": 4
+      "name": "icon"
     }
   ]
 }

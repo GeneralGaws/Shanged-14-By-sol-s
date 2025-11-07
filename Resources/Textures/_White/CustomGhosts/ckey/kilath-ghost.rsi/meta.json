@@ -8,38 +8,10 @@
   },
   "states": [
     {
-      "name": "otherthing",
-      "directions": 4,
-      "delays": [
-        [
-          0.2,
-          0.2,
-          0.1,
-          0.2
-        ],
-        [
-          0.2,
-          0.2,
-          0.1,
-          0.2
-        ],
-        [
-          0.2,
-          0.2,
-          0.1,
-          0.2
-        ],
-        [
-          0.2,
-          0.2,
-          0.1,
-          0.2
-        ]
-      ]
+      "name": "animated"
     },
     {
-      "name": "otherthing-dead",
-      "directions": 4
+      "name": "icon"
     }
   ]
 }

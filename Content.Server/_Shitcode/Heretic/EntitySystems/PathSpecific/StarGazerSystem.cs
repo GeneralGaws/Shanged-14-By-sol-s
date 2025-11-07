@@ -68,7 +68,10 @@ public sealed class StarGazerSystem : SharedStarGazerSystem
     private void OnGhost(GhostAttemptHandleEvent args)
     {
         if (HasComp<StarGazerComponent>(args.Mind.CurrentEntity))
-            args.CanReturnGlobal = false;
+        {
+            args.Handled = true;
+            args.Result = false;
+        }
     }
 
     private void OnSeekMaster(Entity<StarGazerComponent> ent, ref StarGazerSeekMasterEvent args)

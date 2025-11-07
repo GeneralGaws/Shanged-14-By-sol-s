@@ -17,7 +17,7 @@ using Content.Shared.Damage.Prototypes;
 using Content.Shared.Database;
 using Content.Shared.Examine;
 using Content.Shared.Eye;
-using Content.Shared.FixedPoint;
+using Content.Goobstation.Maths.FixedPoint;
 using Content.Shared.Follower;
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
@@ -493,16 +493,19 @@ namespace Content.Server.Ghost
             // If all else fails, it'll default to the default entity prototype name, "observer".
             // However, that should rarely happen.
             // WWDP EDIT START
-            if (FirstNonNullNonEmpty(mind.Comp.CharacterName, mind.Comp.Session?.Name) is string ghostName)
-                _metaData.SetEntityName(ghost, ghostName);
+            if (mind.Comp.UserId.HasValue && _playerManager.TryGetSessionById(mind.Comp.UserId.Value, out var session))
+            {
+                if (FirstNonNullNonEmpty(mind.Comp.CharacterName, session.Name) is string ghostName)
+                    _metaData.SetEntityName(ghost, ghostName);
+            }
             // WWDP EDIT END
 
             if (mind.Comp.TimeOfDeath.HasValue)
             {
-                SetTimeOfDeath(ghost, mind.Comp.TimeOfDeath!.Value, ghostComponent);
+                SetTimeOfDeath((ghost, ghostComponent), mind.Comp.TimeOfDeath!.Value);
             }
 
-            SetCanReturnToBody(ghostComponent, canReturn);
+            SetCanReturnToBody((ghost, ghostComponent), canReturn);
 
             if (canReturn)
                 _minds.Visit(mind.Owner, ghost, mind.Comp);
@@ -541,9 +544,9 @@ namespace Content.Server.Ghost
 
             if (mind.PreventGhosting)
             {
-                if (mind.Session != null) // Logging is suppressed to prevent spam from ghost attempts caused by movement attempts
+                if (mind.UserId.HasValue && _playerManager.TryGetSessionById(mind.UserId.Value, out var session)) // Logging is suppressed to prevent spam from ghost attempts caused by movement attempts
                 {
-                    _chatManager.DispatchServerMessage(mind.Session, Loc.GetString("comp-mind-ghosting-prevented"),
+                    _chatManager.DispatchServerMessage(session, Loc.GetString("comp-mind-ghosting-prevented"),
                         true);
                 }
 

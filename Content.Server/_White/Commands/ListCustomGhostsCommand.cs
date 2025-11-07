@@ -4,7 +4,6 @@ using Content.Server.Preferences.Managers;
 using Content.Shared._White.CustomGhostSystem;
 using Content.Shared.Administration;
 using Content.Shared.Mind;
-using Content.Shared.Psionics;
 using Robust.Shared.Console;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;

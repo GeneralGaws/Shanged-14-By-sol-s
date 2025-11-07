@@ -1,4 +1,5 @@
 using Content.Shared._White.CustomGhostSystem;
+using Content.Shared.Construction.Prototypes;
 using Content.Shared.Ghost;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -16,26 +17,27 @@ namespace Content.Shared.Preferences
     {
         private Dictionary<int, ICharacterProfile> _characters;
 
-        public PlayerPreferences(IEnumerable<KeyValuePair<int, ICharacterProfile>> characters, int selectedCharacterIndex, Color adminOOCColor, ProtoId<CustomGhostPrototype> ghostPrototype) // WWDP EDIT
+        public PlayerPreferences(IEnumerable<KeyValuePair<int, ICharacterProfile>> characters, int selectedCharacterIndex, Color adminOOCColor, ProtoId<CustomGhostPrototype> ghostPrototype, List<ProtoId<ConstructionPrototype>> constructionFavorites) // WWDP EDIT
         {
             _characters = new Dictionary<int, ICharacterProfile>(characters);
             SelectedCharacterIndex = selectedCharacterIndex;
             AdminOOCColor = adminOOCColor;
-            CustomGhost = ghostPrototype; // WWDP EDIT
+            CustomGhost = string.IsNullOrEmpty(ghostPrototype.Id) ? "default" : ghostPrototype; // WWDP EDIT; RESERVE EDIT
+            ConstructionFavorites = constructionFavorites;
         }
 
         // WWDP EDIT START
         public PlayerPreferences WithCharacters(IEnumerable<KeyValuePair<int, ICharacterProfile>> characters) =>
-            new(characters, SelectedCharacterIndex, AdminOOCColor, CustomGhost);
+            new(characters, SelectedCharacterIndex, AdminOOCColor, CustomGhost, ConstructionFavorites);
 
         public PlayerPreferences WithSlot(int slot) =>
-                    new(_characters, slot, AdminOOCColor, CustomGhost);
+                    new(_characters, slot, AdminOOCColor, CustomGhost, ConstructionFavorites);
 
         public PlayerPreferences WithAdminOOCColor(Color adminColor) =>
-                    new(_characters, SelectedCharacterIndex, adminColor, CustomGhost);
+                    new(_characters, SelectedCharacterIndex, adminColor, CustomGhost, ConstructionFavorites);
 
         public PlayerPreferences WithCustomGhost(ProtoId<CustomGhostPrototype> customGhost) =>
-                    new(_characters, SelectedCharacterIndex, AdminOOCColor, customGhost);
+                    new(_characters, SelectedCharacterIndex, AdminOOCColor, customGhost, ConstructionFavorites);
         // WWDP EDIT END
 
         /// <summary>
@@ -59,7 +61,8 @@ namespace Content.Shared.Preferences
         public ICharacterProfile SelectedCharacter => Characters[SelectedCharacterIndex];
 
         public Color AdminOOCColor { get; set; }
-        public ProtoId<CustomGhostPrototype> CustomGhost { get; set; } // WWDP EDIT
+        public ProtoId<CustomGhostPrototype> CustomGhost { get; set; } = "default"; // WWDP EDIT
+        public List<ProtoId<ConstructionPrototype>> ConstructionFavorites { get; set; } = [];
 
         public int IndexOfCharacter(ICharacterProfile profile)
         {

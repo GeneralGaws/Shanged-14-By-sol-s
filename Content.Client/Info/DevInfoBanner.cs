@@ -1,23 +1,24 @@
-using Content.Client._White.UserInterface;
-using Content.Client.Changelog;
+// SPDX-FileCopyrightText: 2022 Jesse Rougeau <jmaster9999@gmail.com>
+// SPDX-FileCopyrightText: 2022 Pieter-Jan Briers <pieterjan.briers+git@gmail.com>
+// SPDX-FileCopyrightText: 2024 Piras314 <p1r4s@proton.me>
+// SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Client.Credits;
 using Content.Shared.CCVar;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
-using Robust.Shared.IoC;
-using Robust.Shared.Localization;
-using Robust.Shared.Utility;
 
 namespace Content.Client.Info
 {
     public sealed class DevInfoBanner : BoxContainer
     {
-        private WindowTracker<CreditsWindow> _creditsWindow = new(); // WWDP EDIT
         public DevInfoBanner() {
             var buttons = new BoxContainer
             {
-                Orientation = LayoutOrientation.Horizontal,
+                Orientation = LayoutOrientation.Horizontal
             };
             AddChild(buttons);
 
@@ -27,13 +28,13 @@ namespace Content.Client.Info
             var bugReport = cfg.GetCVar(CCVars.InfoLinksBugReport);
             if (bugReport != "")
             {
-                var reportButton = new Button { Text = Loc.GetString("server-info-report-button"), StyleClasses = { "NovaButton", } }; // WWDP EDIT
+                var reportButton = new Button {Text = Loc.GetString("server-info-report-button")};
                 reportButton.OnPressed += args => uriOpener.OpenUri(bugReport);
                 buttons.AddChild(reportButton);
             }
 
-            var creditsButton = new Button { Text = Loc.GetString("server-info-credits-button"), StyleClasses = { "NovaButton", } }; // WWDP EDIT
-            creditsButton.OnPressed += args => _creditsWindow.TryOpen(); // WWDP EDIT
+            var creditsButton = new Button {Text = Loc.GetString("server-info-credits-button")};
+            creditsButton.OnPressed += args => new CreditsWindow().Open();
             buttons.AddChild(creditsButton);
         }
     }

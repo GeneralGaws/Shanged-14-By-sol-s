@@ -176,7 +176,7 @@
   description: Care to share?
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: heart
       shader: unshaded
@@ -198,7 +198,7 @@
   description: And i dance-dance-dance, and i dance-dance-dance...
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: discocat
       shader: unshaded
@@ -221,7 +221,7 @@
   description: I am disappointed.
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: disappointment
       shader: unshaded
@@ -234,7 +234,7 @@
   proto: MobObserverKing
   restrictions:
   - !type:PlaytimeDepartmentRestriction
-    department: Epistemics
+    department: Science
     hoursPlaytime: 8
   - !type:PlaytimeDepartmentRestriction
     department: Security
@@ -246,7 +246,7 @@
     department: Command
     hoursPlaytime: 8
   - !type:PlaytimeDepartmentRestriction
-    department: Logistics
+    department: Cargo
     hoursPlaytime: 8
 
 - type: entity
@@ -254,7 +254,7 @@
   id: MobObserverKing
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: king
       shader: unshaded
@@ -275,7 +275,7 @@
   id: MobObserverBlazeit
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: blazeit
       shader: unshaded
@@ -295,7 +295,7 @@
   id: MobObserverRainbow
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: rainbow
       shader: unshaded
@@ -315,7 +315,7 @@
   id: MobObserverKitty
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: kitty
       shader: unshaded
@@ -335,7 +335,7 @@
   id: MobObserverIan
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: ian
       shader: unshaded
@@ -356,7 +356,7 @@
   id: MobObserverFire
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: fire
       shader: unshaded
@@ -376,7 +376,7 @@
   id: MobObserverSkeleton
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: skeleton
       shader: unshaded
@@ -396,7 +396,7 @@
   id: MobObserverFrog
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: frog
       shader: unshaded
@@ -416,7 +416,7 @@
   id: MobObserverRooster
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: rooster
       shader: unshaded
@@ -436,7 +436,7 @@
   id: MobObserverMouse
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: mouse
       shader: unshaded
@@ -456,7 +456,7 @@
   id: MobObserverParrot
   components:
   - type: Sprite
-    sprite: _White/Ghosts/simple.rsi
+    sprite: _White/CustomGhosts/simple.rsi
     layers:
     - state: parrot
       shader: unshaded

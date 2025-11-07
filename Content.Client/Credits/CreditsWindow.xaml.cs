@@ -352,10 +352,6 @@ public sealed partial class CreditsWindow : DefaultWindow
         {
             return _linkAccount.GetPatrons().Select(p => new PatronEntry(p.Name, p.Tier));
             var yamlStream = _resourceManager.ContentFileReadYaml(new ("/Credits/Patrons.yml"));
-            // WWDP EDIT START
-            if (yamlStream.Documents.Count == 0)
-                return Enumerable.Empty<PatronEntry>();
-            // WWDP EDIT END
             var sequence = (YamlSequenceNode) yamlStream.Documents[0].RootNode;
 
         return sequence

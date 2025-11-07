@@ -42,7 +42,7 @@ public sealed class ForceGhostCommand : LocalizedEntityCommands
         if (!_mind.TryGetMind(player, out var mindId, out var mind))
             (mindId, mind) = _mind.CreateMind(player.UserId);
 
-        if (!_ghost.OnGhostAttempt(mindId, false, true, true, mind))
+        if (!_ghost.OnGhostAttempt(mindId, false, true, mind))
             shell.WriteLine(Loc.GetString("cmd-forceghost-denied"));
     }
 

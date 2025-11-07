@@ -9,8 +9,7 @@
   },
   "states": [
     {
-      "name": "floor_goblin",
-      "directions": 4
+      "name": "animated"
     }
   ]
 }

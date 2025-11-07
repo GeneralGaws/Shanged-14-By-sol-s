@@ -53,11 +53,7 @@ public sealed partial class PlaytimeServerRestriction : CustomGhostRestriction
         _playtime ??= IoCManager.Resolve<ISharedPlaytimeManager>();
 
         failReason = null;
-        if (!_playtime.TryGetTrackerTimes(player, out var playtimes))
-        {
-            failReason = "Failed to get playtimes. Ask an admin for help if this error persists.";
-            return false;
-        }
+        var playtimes = _playtime.GetPlayTimes(player);
 
         double jobPlaytime = 0;
         if (playtimes.TryGetValue("Overall", out var time))
@@ -97,11 +93,7 @@ public sealed partial class PlaytimeJobRestriction : CustomGhostRestriction
         _proto ??= IoCManager.Resolve<IPrototypeManager>();
 
         failReason = null;
-        if (!_playtime.TryGetTrackerTimes(player, out var playtimes))
-        {
-            failReason = "Failed to get playtimes. Ask an admin for help if this error persists.";
-            return false;
-        }
+        var playtimes = _playtime.GetPlayTimes(player);
 
         double jobPlaytime = 0;
         var jobProto = _proto.Index<JobPrototype>(Job);
@@ -144,11 +136,7 @@ public sealed partial class PlaytimeDepartmentRestriction : CustomGhostRestricti
         _proto ??= IoCManager.Resolve<IPrototypeManager>();
 
         failReason = null;
-        if (!_playtime.TryGetTrackerTimes(player, out var playtimes))
-        {
-            failReason = "Failed to get playtimes. Ask an admin for help if this error persists.";
-            return false;
-        }
+        var playtimes = _playtime.GetPlayTimes(player);
 
         double departmentPlaytime = 0;
         var departmentProto = _proto.Index<DepartmentPrototype>(Department);
