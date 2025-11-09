@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Cinkafox <70429757+Cinkafox@users.noreply.github.com>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using System.Linq;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
