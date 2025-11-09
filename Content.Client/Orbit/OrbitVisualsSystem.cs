@@ -109,9 +109,6 @@ public sealed class OrbitVisualsSystem : EntitySystem
             _animations.Play(uid, animationPlayer, GetOrbitAnimation(component), _orbitAnimationKey);
         }
     }
-    // Reserve edit END: Port WWDP, CustomGhost
-
-    // Reserve edit START: Port WWDP, CustomGhost
     private Animation GetOrbitAnimation(OrbitVisualsComponent component)
     {
         var length = component.OrbitLength;
