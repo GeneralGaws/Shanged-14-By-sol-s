@@ -99,6 +99,7 @@
 // SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Aiden <aiden@djkraz.com>
 // SPDX-FileCopyrightText: 2025 Aviu00 <93730715+Aviu00@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Cinkafox <70429757+Cinkafox@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 DrSmugleaf <10968691+DrSmugleaf@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 DrSmugleaf <drsmugleaf@gmail.com>
 // SPDX-FileCopyrightText: 2025 GoobBot <uristmchands@proton.me>
@@ -610,6 +611,15 @@ namespace Content.Server.Database
         public string FlavorText { get; set; } = null!;
         public int Age { get; set; }
         public string Sex { get; set; } = null!;
+        public string? BodyType { get; set; } // WD EDIT
+        public string? Voice { get; set; } // WD EDIT
+        public string BarkVoice { get; set; } = null!; // WD EDIT
+
+        public byte BarkPause { get; set; } = byte.MaxValue / 2; // WD EDIT
+        public byte BarkVolume { get; set; } = byte.MaxValue / 2; // WD EDIT
+        public byte BarkPitch { get; set; } = byte.MaxValue / 2; // WD EDIT
+        public byte BarkPitchVariance { get; set; } = byte.MaxValue / 2; // WD EDIT
+
         public string Gender { get; set; } = null!;
         public string Species { get; set; } = null!;
         public float Height { get; set; } = 1f; // Goobstation: port EE height/width sliders

@@ -26,6 +26,7 @@
 // SPDX-FileCopyrightText: 2025 Aiden <aiden@djkraz.com>
 // SPDX-FileCopyrightText: 2025 BombasterDS <deniskaporoshok@gmail.com>
 // SPDX-FileCopyrightText: 2025 BombasterDS2 <shvalovdenis.workmail@gmail.com>
+// SPDX-FileCopyrightText: 2025 Cinkafox <70429757+Cinkafox@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Ilya246 <57039557+Ilya246@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 John Willis <143434770+CerberusWolfie@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Kirill <kirill@example.com>
@@ -886,6 +887,31 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("age");
 
+                    b.Property<byte>("BarkPause")
+                        .HasColumnType("smallint")
+                        .HasColumnName("bark_pause");
+
+                    b.Property<byte>("BarkPitch")
+                        .HasColumnType("smallint")
+                        .HasColumnName("bark_pitch");
+
+                    b.Property<byte>("BarkPitchVariance")
+                        .HasColumnType("smallint")
+                        .HasColumnName("bark_pitch_variance");
+
+                    b.Property<string>("BarkVoice")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("bark_voice");
+
+                    b.Property<byte>("BarkVolume")
+                        .HasColumnType("smallint")
+                        .HasColumnName("bark_volume");
+
+                    b.Property<string>("BodyType")
+                        .HasColumnType("text")
+                        .HasColumnName("body_type");
+
                     b.Property<string>("CharacterName")
                         .IsRequired()
                         .HasColumnType("text")
@@ -968,6 +994,10 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Property<int>("Uplink")
                         .HasColumnType("integer")
                         .HasColumnName("uplink");
+
+                    b.Property<string>("Voice")
+                        .HasColumnType("text")
+                        .HasColumnName("voice");
 
                     b.Property<float>("Width")
                         .HasColumnType("real")

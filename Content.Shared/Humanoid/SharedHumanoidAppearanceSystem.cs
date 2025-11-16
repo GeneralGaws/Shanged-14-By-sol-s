@@ -15,6 +15,7 @@
 // SPDX-FileCopyrightText: 2024 ike709 <ike709@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2024 metalgearsloth <31366439+metalgearsloth@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 Cinkafox <70429757+Cinkafox@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 GoobBot <uristmchands@proton.me>
 // SPDX-FileCopyrightText: 2025 J <billsmith116@gmail.com>
 // SPDX-FileCopyrightText: 2025 Kirill <kirill@example.com>
@@ -56,6 +57,7 @@ using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Utility;
 using YamlDotNet.RepresentationModel;
+using Content.Shared._White.Bark.Systems;
 
 namespace Content.Shared.Humanoid;
 
@@ -74,12 +76,16 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     [Dependency] private readonly INetManager _netManager = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly ISerializationManager _serManager = default!;
-    [Dependency] private readonly HeightAdjustSystem _heightAdjust = default!; // Goobstation: port EE height/width sliders
+    [Dependency] private readonly HeightAdjustSystem _heightAdjust = default!;
     [Dependency] private readonly MarkingManager _markingManager = default!;
     [Dependency] private readonly GrammarSystem _grammarSystem = default!;
     [Dependency] private readonly SharedIdentitySystem _identity = default!;
+    [Dependency] private readonly ISharedPlayerManager _sharedPlayerManager = default!;
+    [Dependency] private readonly SharedBarkSystem _barkSystem = default!;
 
     public static readonly ProtoId<SpeciesPrototype> DefaultSpecies = "Human";
+
+    public const string DefaultBarkVoice = "Txt1";
 
     public override void Initialize()
     {
@@ -489,6 +495,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         SetSpecies(uid, profile.Species, false, humanoid);
         SetSex(uid, profile.Sex, false, humanoid);
+        _barkSystem.ApplyBark(uid, profile.BarkVoice, profile.BarkSettings);
+
         humanoid.EyeColor = profile.Appearance.EyeColor;
 
         SetSkinColor(uid, profile.Appearance.SkinColor, false);
