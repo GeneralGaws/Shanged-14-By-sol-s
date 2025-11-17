@@ -420,96 +420,26 @@
     runningState: building
     unlitIdleState: unlit
     unlitRunningState: unlit-building
-    staticRecipes:
-      - Wirecutter
-      - Igniter
-      - Signaller
-      - Screwdriver
-      - Welder
-      - Wrench
-      - CrowbarGreen
-      - Multitool
-      - NetworkConfigurator
-      - SprayPainter
-      - FlashlightLantern
-      - CableStack
-      - CableMVStack
-      - CableHVStack
-      - HandheldGPSBasic
-      - TRayScanner
-      - AirTank
-      - GasAnalyzer
-      - UtilityBelt
-      - Fulton
-      - FultonBeacon
-      - OreBag # Goobstation
-      - Pickaxe
-      - ModularReceiver
-      - AppraisalTool
-      - SheetRGlass
-      - Beaker
-      - Syringe
-      - HandLabeler
-      - LightTube
-      - LedLightTube
-      - SodiumLightTube
-      - ExteriorLightTube
-      - LightBulb
-      - LedLightBulb
-      - DimLightBulb
-      - Bucket
-      - DrinkMug
-      - DrinkMugMetal
-      - DrinkGlass
-      - DrinkShotGlass
-      - DrinkGlassCoupeShaped
-      - CustomDrinkJug
-      - FoodPlate
-      - FoodPlateSmall
-      - FoodPlatePlastic
-      - FoodPlateSmallPlastic
-      - FoodBowlBig
-      - FoodPlateTin
-      - FoodPlateMuffinTin
-      - FoodKebabSkewer
-      - SprayBottle
-      - MopItem
-      - Holoprojector
-      - Mousetrap
-      - LightReplacer
-      - TrashBag
-      - PowerCellSmall
-      - PowerCellMedium
-      - VehicleWheelchairFolded # Goobstation
-      - RollerBedSpawnFolded
-      - CheapRollerBedSpawnFolded
-      - EmergencyRollerBedSpawnFolded
-      - MicroManipulatorStockPart
-      - MatterBinStockPart
-      - CapacitorStockPart
-      - ConveyorBeltAssembly
-      - IntercomElectronics
-      - FirelockElectronics
-      - DoorElectronics
-      - AirAlarmElectronics
-      - StationMapElectronics
-      - FireAlarmElectronics
-      - MailingUnitElectronics
-      - SignalTimerElectronics
-      - APCElectronics
-      - SMESMachineCircuitboard
-      - SubstationMachineCircuitboard
-      - WallmountSubstationElectronics
-      - CellRechargerCircuitboard
-      - BorgChargerCircuitboard
-      - WeaponCapacitorRechargerCircuitboard
-      - HandheldStationMap
-      - ClothingHeadHatWelding
-      - WetFloorSign
-      - ClothingHeadHatCone
-      - FreezerElectronics
-      - ToolboxMechanical # Goobstation - Recycle update
-      - Pen # Goobstation - Allow pen printing
+    staticPacks:
+    - ToolsStatic
+    - PartsStatic
+    - AtmosStatic
+    - CablesStatic
+    #- CargoStatic Goob edit - Moved to Cargo fab
+    - MaterialsStatic
+    - BasicChemistryStatic
+    - RollerBedsStatic
+    - LightsStatic
+    - ServiceStatic
+    - PowerCellsStatic
+    - ElectronicsStatic
+    # Goobstation
+    - NailsStatic
+    - LatheMiscStatic
+    - MedicalVehiclesStatic
+    - GrenadeTriggersStatic
+    - TapeRecorderStatic
+    - MiscSignallersStatic
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SecurityWeaponsStatic
