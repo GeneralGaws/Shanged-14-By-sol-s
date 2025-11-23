@@ -5,3 +5,5 @@ role-subtype-heretic = Еретик
 role-subtype-pirate = Пират
 role-subtype-changeling = Генокрад
 role-subtype-brainwashed = Промытый мозгами
+role-subtype-slaughter-demon = Демон резни
+role-subtype-slasher = Мясник
