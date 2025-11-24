@@ -152,6 +152,8 @@ using Content.Shared.Radio;
 using Content.Shared.Whitelist;
 using Content.Goobstation.Common.Chat;
 using Content.Goobstation.Common.Traits;
+using Content.Server._Orion.ServerProtection.Chat;
+using Content.Server._Orion.ServerProtection.Emoting;
 using Robust.Server.Player;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -196,6 +198,8 @@ public sealed partial class ChatSystem : SharedChatSystem
     [Dependency] private readonly CollectiveMindUpdateSystem _collectiveMind = default!; // Goobstation - Starlight collective mind port
     [Dependency] private readonly IGameTiming _gameTiming = default!; //Reserve - emote cooldown
     [Dependency] private readonly LanguageSystem _language = default!; // Einstein Engines - Language
+    [Dependency] private readonly ChatProtectionSystem _chatProtection = default!; // Orion
+    [Dependency] private readonly EmoteProtectionSystem _emoteProtection = default!; // Orion
 
     public const int VoiceRange = 10; // how far voice goes in world units
     public const int WhisperClearRange = 2; // how far whisper goes while still being understandable, in world units
@@ -339,6 +343,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (player != null && _chatManager.HandleRateLimit(player) != RateLimitStatus.Allowed)
             return;
 
+        // Orion-Start
+        if (_chatProtection.CheckICMessage(message, source))
+            return;
+        // Orion-End
+
         // Sus
         if (player?.AttachedEntity is { Valid: true } entity && source != entity)
         {
@@ -466,7 +475,12 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (player?.AttachedEntity is not { Valid: true } entity || source != entity)
             return;
 
-        message = SanitizeInGameOOCMessage(message);
+        // Orion-Start
+        if (_chatProtection.CheckOOCMessage(message, player))
+            return;
+        // Orion-End
+
+        message = SanitizeInGameOOCMessage(message, player); // Orion-Edit | player
 
         var sendType = type;
         // If dead player LOOC is disabled, unless you are an admin with Moderator perms, send dead messages to dead chat
@@ -580,6 +594,11 @@ public sealed partial class ChatSystem : SharedChatSystem
             // you can't make a station announcement without a station
             return;
         }
+
+        // Orion-Start
+        if (_chatProtection.CheckICMessage(message, source))
+            return;
+        // Orion-End
 
         if (!TryComp<StationDataComponent>(station, out var stationDataComp)) return;
 
@@ -696,6 +715,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (message.Length == 0)
             return;
 
+        // Orion-Start
+        if (_chatProtection.CheckICMessage(message, source))
+            return;
+        // Orion-End
+
         var speech = GetSpeechVerb(source, message);
 
         // get the entity's apparent name (if no override provided).
@@ -803,6 +827,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         // Goob edit end
         if (message.Length == 0)
             return;
+
+        // Orion-Start
+        if (_chatProtection.CheckICMessage(message, source))
+            return;
+        // Orion-End
 
         // get the entity's name by visual identity (if no override provided).
         string nameIdentity = FormattedMessage.EscapeText(nameOverride ?? Identity.Name(source, EntityManager));
@@ -924,6 +953,8 @@ public sealed partial class ChatSystem : SharedChatSystem
         var ent = Identity.Entity(source, EntityManager);
         string name = FormattedMessage.EscapeText(nameOverride ?? Name(ent));
 
+        _emoteProtection.OnEmoteDetected(source, action, voluntary: true); // Orion
+
         // Emotes use Identity.Name, since it doesn't actually involve your voice at all.
         var wrappedMessage = Loc.GetString("chat-manager-entity-me-wrap-message",
             ("entityName", name),
@@ -968,6 +999,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (!_critLoocEnabled && _mobStateSystem.IsCritical(source))
             return;
 
+        // Orion-Start
+        if (_chatProtection.CheckOOCMessage(message, player)) // Not IC because can use OOC words.
+            return;
+        // Orion-End
+
         var wrappedMessage = Loc.GetString("chat-manager-entity-looc-wrap-message",
             ("entityName", name),
             ("message", FormattedMessage.EscapeText(message)));
@@ -996,6 +1032,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         string wrappedMessage;
 
         var speech = GetSpeechVerb(source, message); // Goobstation - Dead chat verbs
+
+        // Orion-Start
+        if (_chatProtection.CheckOOCMessage(message, player)) // Not IC because can use OOC words.
+            return;
+        // Orion-End
 
         if (_adminManager.IsAdmin(player))
         {
@@ -1171,9 +1212,15 @@ public sealed partial class ChatSystem : SharedChatSystem
         return prefix + newMessage;
     }
 
-    private string SanitizeInGameOOCMessage(string message)
+    private string SanitizeInGameOOCMessage(string message, ICommonSession? session) // Orion-Edit | ICommonSession
     {
         var newMessage = message.Trim();
+
+        // Orion-Start
+        if (_chatProtection.CheckOOCMessage(newMessage, session!))
+            return string.Empty;
+        // Orion-End
+
         newMessage = FormattedMessage.EscapeText(newMessage);
 
         return newMessage;
