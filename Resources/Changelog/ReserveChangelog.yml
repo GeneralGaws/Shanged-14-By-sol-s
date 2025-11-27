@@ -252,3 +252,9 @@ Entries:
       message: Анализаторы растений обновлены.
   id: 37
   time: '2025-11-23T21:17:18.0000000+00:00'
+- author: thxmqninq
+  changes:
+    - type: Add
+      message: Конспираторы!
+  id: 38
+  time: '2025-11-27T20:59:08.0000000+00:00'
