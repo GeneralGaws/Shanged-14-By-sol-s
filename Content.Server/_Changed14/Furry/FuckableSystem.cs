@@ -1,24 +1,29 @@
-// LIGHT TODO: сделать ренж ивента минимальным, выебать только при крите,
-//стан крит на 5+сек жертве, сделать интервал между криками партнеров, лорные название вербов, не показывать верб при >ренж
+// LIGHT TODO: лорные название вербов
 // HARD TODO: анимации
 // POSSIBLE FUTURE: цвет зависит от фурри, голос от пола
 using Content.Server.DoAfter;
 using Content.Shared.DoAfter;
 using Content.Shared.Verbs;
 using Content.Shared.Changed14.Fuckable;
-using Content.Shared.Tag;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Changed14.Furry;
+using Content.Server.Stunnable;
+using Content.Shared.Interaction;
+using Content.Shared.Popups;
+
 
 namespace Content.Server.Changed14.Fuckable;
 
 public sealed class FuckableSystem : EntitySystem
 {
     [Dependency] private readonly DoAfterSystem _doAfter = default!;
-    [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly StunSystem _stun = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -33,13 +38,12 @@ public sealed class FuckableSystem : EntitySystem
         if (args.Cancelled)
             return;
 
-        _audio.PlayPvs(comp.FurryCumSound, args.User);
-        _audio.PlayPvs(comp.FuckableCumSound, args.User);
-
         if (!_solutionContainer.TryGetInjectableSolution(uid, out var injectable, out _))
             return;
+
         _solutionContainer.TryAddReagent(injectable.Value, comp.ReagentId, 5);
 
+        return;
     }
 
     private void OnActivationVerb(EntityUid uid, FuckableComponent comp, ref GetVerbsEvent<ActivationVerb> args)
@@ -54,7 +58,7 @@ public sealed class FuckableSystem : EntitySystem
 
         var verb = new ActivationVerb()
         {
-            Act = () => HandleFuck(uid, user),
+            Act = () => HandleFuck(uid, user, comp),
             Text = Loc.GetString("changed-fuck-verb"),
             Message = Loc.GetString("changed-fuck-desc"),
         };
@@ -62,7 +66,7 @@ public sealed class FuckableSystem : EntitySystem
         args.Verbs.Add(verb);
     }
 
-    private void HandleFuck(EntityUid uid, EntityUid user)
+    private void HandleFuck(EntityUid uid, EntityUid user, FuckableComponent comp)
     {
         var doAfterArgs = new DoAfterArgs(EntityManager, user, TimeSpan.FromSeconds(3), new FuckDoAfterEvent(), uid, uid)
         {
@@ -70,11 +74,19 @@ public sealed class FuckableSystem : EntitySystem
             BreakOnDamage = true,
             NeedHand = false,
             DistanceThreshold = 0.5f,
+            MovementThreshold = 0.15f,
         };
 
         _doAfter.TryStartDoAfter(doAfterArgs);
 
+        if (_interaction.InRangeUnobstructed(user, uid, 0.5f, Shared.Physics.CollisionGroup.Impassable))
+        {
+            _audio.PlayPvs(comp.FuckableCumSound, uid);
+            _stun.TryKnockdown(uid, TimeSpan.FromSeconds(5), true);
+        }
+        else
+        {
+            _popupSystem.PopupEntity(Loc.GetString("changed-fuck-range"), user, user);
+        }
     }
-
-
 }
