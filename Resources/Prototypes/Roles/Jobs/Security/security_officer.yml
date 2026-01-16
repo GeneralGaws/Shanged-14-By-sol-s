@@ -120,6 +120,7 @@
 - type: startingGear
   id: SecurityOfficerGear
   equipment:
+    head: ClothingHeadHelmetBasic
     eyes: ClothingEyesGlassesSecurity
     ears: ClothingHeadsetAltSecurityRegular # Goobstation
     pocket1: WeaponPistolMk58

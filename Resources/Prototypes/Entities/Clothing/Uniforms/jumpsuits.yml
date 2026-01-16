@@ -740,9 +740,9 @@
   description: A jumpsuit made of strong material, providing robust protection.
   components:
   - type: Sprite
-    sprite: Clothing/Uniforms/Jumpsuit/security.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_uniform.rsi
   - type: Clothing
-    sprite: Clothing/Uniforms/Jumpsuit/security.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_uniform.rsi
   - type: Item
     inhandVisuals:
       left:
@@ -774,9 +774,9 @@
   description: A tactical relic of years past before Nanotrasen decided it was cheaper to dye the suits red instead of washing out the blood.
   components:
   - type: Sprite
-    sprite: Clothing/Uniforms/Jumpsuit/security_grey.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_uniform.rsi
   - type: Clothing
-    sprite: Clothing/Uniforms/Jumpsuit/security_grey.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_uniform.rsi
 
 - type: entity
   parent: [ClothingUniformBase, BaseSecurityContraband]

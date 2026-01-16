@@ -175,15 +175,16 @@
 
 #Basic Helmet (Security Helmet)
 - type: entity
-  parent: [ClothingHeadHelmetArmoredBase, BaseSecurityContraband, ClothingHeadHelmetBaseFoldable] # Goob - ClothingHeadHelmetBaseFoldable
+  parent: [BaseSecurityContraband, ClothingHeadHelmetBaseFoldable, ClothingHeadLightBase] # Goob - ClothingHeadHelmetBaseFoldable
   id: ClothingHeadHelmetBasic
   name: helmet
   description: Standard security gear. Protects the head from impacts.
   components:
   - type: Sprite
-    sprite: Clothing/Head/Helmets/security.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_mask.rsi
+    scale: 0.7, 0.7
   - type: Clothing
-    sprite: Clothing/Head/Helmets/security.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_mask.rsi
   - type: Tag
     tags:
     - WhitelistChameleon
@@ -191,6 +192,14 @@
   #- type: HideLayerClothing #Goobstation
   #  layers:
   #    Hair: HEAD
+  - type: PointLight
+    enabled: false
+    radius: 5
+    energy: 8
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+    color: "#005791"
+    netsync: false
 
 #Mercenary Helmet
 - type: entity

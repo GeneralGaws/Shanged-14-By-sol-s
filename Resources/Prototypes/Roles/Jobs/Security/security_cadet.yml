@@ -132,6 +132,7 @@
 - type: startingGear
   id: SecurityCadetGear
   equipment:
+    head: ClothingHeadHelmetBasic
     eyes: ClothingEyesGlassesSecurity #Goobstation
     shoes: ClothingShoesBootsJack # Goobstation edit
     #outerClothing: ClothingOuterArmorBasic # Goobstation

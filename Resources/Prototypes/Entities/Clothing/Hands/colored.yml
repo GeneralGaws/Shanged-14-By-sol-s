@@ -401,7 +401,7 @@
   description: Regular black gloves that do not keep you from frying.
   components:
   - type: Sprite
-    sprite: Clothing/Hands/Gloves/Color/black.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_gloves.rsi
   - type: Item
     inhandVisuals:
       left:
@@ -411,7 +411,7 @@
       - state: inhand-right
         color: "#535353"
   - type: Clothing
-    sprite: Clothing/Hands/Gloves/Color/black.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_gloves.rsi
   - type: Butcherable
     butcheringType: Knife
     spawned:

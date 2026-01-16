@@ -191,14 +191,14 @@
     damageCoefficient: 0.7
 
 #Standard armor vest, allowed for security and bartenders
-- type: entity
-  parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
-  id: ClothingOuterArmorBasic
-  components:
-  - type: Tag
-    tags:
-    - CorgiWearable
-    - WhitelistChameleon
+# - type: entity
+#   parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
+#   id: ClothingOuterArmorBasic
+#   components:
+#   - type: Tag
+#     tags:
+#     - CorgiWearable
+#     - WhitelistChameleon
 
 #Alternate / slim basic armor vest
 - type: entity
