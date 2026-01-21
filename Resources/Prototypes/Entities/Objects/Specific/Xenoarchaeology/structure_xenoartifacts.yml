@@ -8,23 +8,34 @@
   # Visual
   - type: Sprite
     drawdepth: SmallObjects
-    sprite: Objects/Specific/Xenoarchaeology/xeno_artifacts.rsi
+    # sprite: Objects/Specific/Xenoarchaeology/xeno_artifacts.rsi
+    sprite: Structures/Decoration/crystal.rsi
+    state: crystal_grey
+    color: white
     noRot: true
     layers:
-    - state: ano30
+    - state: crystal_grey
       map: [ "enum.ArtifactsVisualLayers.Base" ]
-    - state: ano30_on
+    - state: crystal_grey
       map: [ "enum.ArtifactsVisualLayers.UnlockingEffect" ]
       visible: false
-    - state: artifact-activation
-      map: [ "enum.ArtifactsVisualLayers.ActivationEffect" ]
-      visible: false
-  - type: RandomArtifactSprite
-    maxSprite: 36
-  - type: RandomSprite
-    available:
-    - enum.ArtifactsVisualLayers.UnlockingEffect:
-        ano01_on: Rainbow
+    # - state: crystal_grey
+    #   map: [ "enum.ArtifactsVisualLayers.ActivationEffect" ]
+    #   visible: false
+    # - state: ano30
+    #   map: [ "enum.ArtifactsVisualLayers.Base" ]
+    # - state: ano30_on
+    #   map: [ "enum.ArtifactsVisualLayers.UnlockingEffect" ]
+    #   visible: false
+    # - state: artifact-activation
+    #   map: [ "enum.ArtifactsVisualLayers.ActivationEffect" ]
+    #   visible: false
+  # - type: RandomArtifactSprite
+  #   maxSprite: 36
+  # - type: RandomSprite
+  #   available:
+  #   - enum.ArtifactsVisualLayers.UnlockingEffect:
+  #       ano01_on: Rainbow
   - type: Transform
     noRot: true
   - type: Fixtures

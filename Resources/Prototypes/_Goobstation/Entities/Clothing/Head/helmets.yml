@@ -78,12 +78,20 @@
   suffix: Alt
   components:
   - type: Sprite
-    sprite: _Goobstation/Clothing/Head/Helmets/security.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_mask.rsi
   - type: Clothing
-    sprite: _Goobstation/Clothing/Head/Helmets/security.rsi
+    sprite: _Changed14/Clothing/SecurityGear/security_mask.rsi
   - type: Tag
     tags:
     - WhitelistChameleon
+  - type: PointLight
+    enabled: false
+    radius: 5
+    energy: 8
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+    color: "#005791"
+    netsync: false
 
 - type: entity
   parent: [ ClothingHeadBase, BaseMajorContraband ]
