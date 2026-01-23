@@ -33,7 +33,7 @@ public sealed class ResearchEvacSystem : EntitySystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
 
-    private void Initialize()
+    public override void Initialize()
     {
         SubscribeLocalEvent<ResearchEvacConsoleComponent, BoundUIOpenedEvent>(OnGeneratorBUIOpened);
         SubscribeLocalEvent<ResearchEvacConsoleComponent, ResearchEvacButtonPressedEvent>(OnCallEvacButtonPressed);
@@ -52,7 +52,7 @@ public sealed class ResearchEvacSystem : EntitySystem
 
     }
 
-    public void UpdateGeneratorUi(EntityUid uid, ResearchEvacConsoleComponent component)
+    private void UpdateGeneratorUi(EntityUid uid, ResearchEvacConsoleComponent component)
     {
         var canCall = (TryComp<ResearchEvacConsoleComponent>(uid, out var printing));
         var isConsole = (TryComp<ResearchEvacConsoleComponent>(uid, out var console));
@@ -63,7 +63,7 @@ public sealed class ResearchEvacSystem : EntitySystem
 
     }
 
-    public void TryGeneratorCreateAnomaly(EntityUid uid, ResearchEvacConsoleComponent component)
+    private void TryGeneratorCreateAnomaly(EntityUid uid, ResearchEvacConsoleComponent component)
     {
         // if (!Resolve(uid, ref component))
         //     return;
