@@ -20,11 +20,12 @@ public sealed class ResearchEvacButtonPressedEvent : BoundUserInterfaceMessage
 public sealed class ResearchEvacConsoleBoundUserInterfaceState : BoundUserInterfaceState
 {
     public bool CanCall;
+    public bool IsConsole;
 
-
-    public ResearchEvacConsoleBoundUserInterfaceState(bool canCall)
+    public ResearchEvacConsoleBoundUserInterfaceState(bool canCall, bool isConsole)
     {
         CanCall = canCall;
+        IsConsole = isConsole;
 
     }
 }

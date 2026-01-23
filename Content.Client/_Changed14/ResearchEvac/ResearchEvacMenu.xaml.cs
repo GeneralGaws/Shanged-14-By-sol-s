@@ -7,6 +7,8 @@ using Robust.Shared.Timing;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Prototypes;
 using Content.Shared.Research;
+using FancyWindow = Content.Client.UserInterface.Controls.FancyWindow;
+using Content.Client._Changed14.ResearchEvac;
 
 namespace Content.Client._Changed14.ResearchEvac;
 
@@ -21,19 +23,13 @@ public sealed partial class ResearchEvacWindow : FancyWindow
 
         CallEvacButton.OnPressed += _ => OnCallEvacButtonPressed?.Invoke();
     }
-
-    // public void SetEntity(EntityUid uid)
-    // {
-    //     EntityView.SetEntity(uid);
-    // }
     public void Update(ResearchEvacConsoleBoundUserInterfaceState state)
     {
-        CallEvacButton.Disabled = !state.CanCall;
-        // Description.Text = Loc.GetString("idi-naxuy");
+        CallEvacButton.Disabled = !state.CanCall && !state.IsConsole;
     }
 
-    public void UpdateState(ResearchEvacConsoleBoundUserInterfaceState state)
-    {
+    // public void UpdateState(ResearchEvacConsoleBoundUserInterfaceState state)
+    // {
 
-    }
+    // }
 }

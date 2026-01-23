@@ -36,7 +36,6 @@ public sealed class ResearchEvacSystem : EntitySystem
     private void Initialize()
     {
         SubscribeLocalEvent<ResearchEvacConsoleComponent, BoundUIOpenedEvent>(OnGeneratorBUIOpened);
-        // SubscribeLocalEvent<ResearchEvacConsoleComponent, MaterialAmountChangedEvent>(OnGeneratorMaterialAmountChanged);
         SubscribeLocalEvent<ResearchEvacConsoleComponent, ResearchEvacButtonPressedEvent>(OnCallEvacButtonPressed);
     }
 
@@ -45,54 +44,50 @@ public sealed class ResearchEvacSystem : EntitySystem
         UpdateGeneratorUi(uid, component);
     }
 
-    // private void OnGeneratorMaterialAmountChanged(EntityUid uid, ResearchEvacConsoleComponent component, ref MaterialAmountChangedEvent args)
-    // {
-    //     UpdateGeneratorUi(uid, component);
-    // }
-
-    private void OnCallEvacButtonPressed(EntityUid uid, ResearchEvacConsoleComponent component, ResearchEvacButtonPressedEvent args)
+    private void OnCallEvacButtonPressed(EntityUid uid, ResearchEvacConsoleComponent component, ResearchEvacButtonPressedEvent message)
     {
 
-        TryGeneratorCreateAnomaly(uid, component);
+        UpdateGeneratorUi(uid, component);
+        _chat.DispatchGlobalAnnouncement(Loc.GetString("ЕБИТЕ ФУРРИ"), Loc.GetString("ИИСУС"), false, null, colorOverride: Color.Crimson);
 
     }
 
     public void UpdateGeneratorUi(EntityUid uid, ResearchEvacConsoleComponent component)
     {
         var canCall = (TryComp<ResearchEvacConsoleComponent>(uid, out var printing));
-        var state = new ResearchEvacConsoleBoundUserInterfaceState(canCall);
+        var isConsole = (TryComp<ResearchEvacConsoleComponent>(uid, out var console));
+        var state = new ResearchEvacConsoleBoundUserInterfaceState(canCall, isConsole);
         _ui.SetUiState(uid, ResearchEvacConsoleUiKey.Key, state);
         _chat.DispatchGlobalAnnouncement(Loc.GetString("ЕБИТЕ ФУРРИ"), Loc.GetString("ИИСУС"), false, null, colorOverride: Color.Crimson);
-        UpdateGenerator();
+        OnGeneratingFinished(uid, component);
 
     }
 
-    public void TryGeneratorCreateAnomaly(EntityUid uid, ResearchEvacConsoleComponent? component = null)
+    public void TryGeneratorCreateAnomaly(EntityUid uid, ResearchEvacConsoleComponent component)
     {
-        if (!Resolve(uid, ref component))
-            return;
+        // if (!Resolve(uid, ref component))
+        //     return;
 
-        if (!this.IsPowered(uid, EntityManager))
-            return;
+        // if (!this.IsPowered(uid, EntityManager))
+        //     return;
 
 
         UpdateGeneratorUi(uid, component);
     }
 
-
-    private void UpdateGenerator()
-    {
-        var query = EntityQueryEnumerator<ResearchEvacConsoleComponent>();
-        while (query.MoveNext(out var ent, out var gen))
-        {
-            OnGeneratingFinished(ent, gen);
-        }
-    }
-
     private void OnGeneratingFinished(EntityUid uid, ResearchEvacConsoleComponent component)
     {
-          var message = Loc.GetString("anomaly-generator-announcement");
+        var message = Loc.GetString("anomaly-generator-announcement");
         _chat.DispatchGlobalAnnouncement(Loc.GetString("У ВАС ЕСТЬ 2 МИНУТЫ ЧТОБЫ УБИТЬ ДРУГ ДРУГА!"), Loc.GetString("Бог-император"), false, null, colorOverride: Color.Crimson);
     }
+
+    // private void UpdateGenerator()
+    // {
+    //     var query = EntityQueryEnumerator<ResearchEvacConsoleComponent>();
+    //     while (query.MoveNext(out var ent, out var gen))
+    //     {
+    //         OnGeneratingFinished(ent, gen);
+    //     }
+    // }
 
 }

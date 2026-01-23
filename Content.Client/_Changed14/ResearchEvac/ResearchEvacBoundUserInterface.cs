@@ -1,6 +1,7 @@
 using Content.Shared._Changed14.ResearchEvac;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
+using Content.Client._Changed14.ResearchEvac;
 
 namespace Content.Client._Changed14.ResearchEvac;
 
@@ -19,7 +20,6 @@ public sealed class ResearchEvacConsoleBoundUserInterface : BoundUserInterface
         base.Open();
 
         _window = this.CreateWindow<ResearchEvacWindow>();
-        // _window.SetEntity(Owner);
 
         _window.OnCallEvacButtonPressed += () => SendMessage(new ResearchEvacButtonPressedEvent());
 
@@ -31,7 +31,7 @@ public sealed class ResearchEvacConsoleBoundUserInterface : BoundUserInterface
 
         if (state is not ResearchEvacConsoleBoundUserInterfaceState msg)
             return;
-        _window?.UpdateState(msg);
+        _window?.Update(msg);
     }
 
 }
