@@ -1,5 +1,4 @@
 using Content.Server._Changed14.ResearchEvac.Components;
-// using Content.Client._Changed14.ResearchEvac;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Station.Components;
 using Content.Shared._Changed14.ResearchEvac;
@@ -15,7 +14,6 @@ using Content.Shared.Power;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
 using Content.Server.Research.Systems;
-using Content.Server.Research.TechnologyDisk.Components;
 using Content.Shared.UserInterface;
 using Content.Shared.Research;
 using Content.Shared.Research.Components;
@@ -28,8 +26,6 @@ namespace Content.Server._Changed14.ResearchEvac;
 
 public sealed class ResearchEvacSystem : EntitySystem
 {
-    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
 
@@ -48,46 +44,21 @@ public sealed class ResearchEvacSystem : EntitySystem
     {
 
         UpdateGeneratorUi(uid, component);
-        _chat.DispatchGlobalAnnouncement(Loc.GetString("ЕБИТЕ ФУРРИ"), Loc.GetString("ИИСУС"), false, null, colorOverride: Color.Crimson);
-
+        OnGeneratingFinished(uid, component);
     }
 
     private void UpdateGeneratorUi(EntityUid uid, ResearchEvacConsoleComponent component)
     {
         var canCall = (TryComp<ResearchEvacConsoleComponent>(uid, out var printing));
-        var isConsole = (TryComp<ResearchEvacConsoleComponent>(uid, out var console));
-        var state = new ResearchEvacConsoleBoundUserInterfaceState(canCall, isConsole);
+        var state = new ResearchEvacConsoleBoundUserInterfaceState(canCall);
         _ui.SetUiState(uid, ResearchEvacConsoleUiKey.Key, state);
-        _chat.DispatchGlobalAnnouncement(Loc.GetString("ЕБИТЕ ФУРРИ"), Loc.GetString("ИИСУС"), false, null, colorOverride: Color.Crimson);
-        OnGeneratingFinished(uid, component);
-
-    }
-
-    private void TryGeneratorCreateAnomaly(EntityUid uid, ResearchEvacConsoleComponent component)
-    {
-        // if (!Resolve(uid, ref component))
-        //     return;
-
-        // if (!this.IsPowered(uid, EntityManager))
-        //     return;
 
 
-        UpdateGeneratorUi(uid, component);
     }
 
     private void OnGeneratingFinished(EntityUid uid, ResearchEvacConsoleComponent component)
     {
-        var message = Loc.GetString("anomaly-generator-announcement");
-        _chat.DispatchGlobalAnnouncement(Loc.GetString("У ВАС ЕСТЬ 2 МИНУТЫ ЧТОБЫ УБИТЬ ДРУГ ДРУГА!"), Loc.GetString("Бог-император"), false, null, colorOverride: Color.Crimson);
+        _chat.DispatchGlobalAnnouncement(Loc.GetString("ЕБИТЕ ФУРРИ"), Loc.GetString("ИИСУС"), false, null, colorOverride: Color.Crimson);
     }
-
-    // private void UpdateGenerator()
-    // {
-    //     var query = EntityQueryEnumerator<ResearchEvacConsoleComponent>();
-    //     while (query.MoveNext(out var ent, out var gen))
-    //     {
-    //         OnGeneratingFinished(ent, gen);
-    //     }
-    // }
 
 }

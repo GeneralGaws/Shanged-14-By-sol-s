@@ -25,11 +25,7 @@ public sealed partial class ResearchEvacWindow : FancyWindow
     }
     public void Update(ResearchEvacConsoleBoundUserInterfaceState state)
     {
-        CallEvacButton.Disabled = !state.CanCall && !state.IsConsole;
+        CallEvacButton.Disabled = state.CanCall;
     }
 
-    // public void UpdateState(ResearchEvacConsoleBoundUserInterfaceState state)
-    // {
-
-    // }
 }
