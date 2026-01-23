@@ -1,0 +1,12 @@
+- type: entity
+  id: ResearchEvacConsole
+  name: research evac console
+  parent: BaseComputer
+  components:
+  - type: ResearchEvacConsole
+  - type: UserInterface
+    interfaces:
+      enum.ResearchEvacConsoleUiKey.Key:
+        type: ResearchEvacConsoleBoundUserInterface
+  - type: ActivatableUI
+    key: enum.ResearchEvacConsoleUiKey.Key
